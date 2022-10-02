@@ -1,5 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
+import basket.basket_app
+import basket.parse_data
 
 
 app = FastAPI()
@@ -13,6 +15,8 @@ TEAMS = ['AC Alfenense A', 'AC Alfenense B', 'Académico FC A',
          'GD Bolacesto', 'GDB Leça', 'Guifões SC', 'Guifões SC 2',
          'Juvemaia ACDC', 'Maia Basket', 'Maia Basket B',
          'NCR Valomgo', 'Powertoghether', 'UAA Aroso']
+
+ALL_RESULTS = {}
 
 
 @app.get("/")
@@ -39,3 +43,18 @@ def return_team(team_name: str, q: Union[str, None] = None):
 def return_all_teams():
     all_teams = ', '.join(TEAMS)
     return all_teams
+
+
+@app.get("/private/refresh_data")
+def refresh_data():
+    global ALL_RESULTS
+    basket.parse_data.main()
+    ALL_RESULTS = basket.basket_app.main()
+    return 'data loaded successfully'
+
+
+@app.get("/all_data")
+def return_all_data():
+    if ALL_RESULTS == {}:
+        refresh_data()
+    return ALL_RESULTS
