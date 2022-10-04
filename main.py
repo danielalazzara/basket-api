@@ -21,23 +21,24 @@ ALL_RESULTS = {}
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+    return {"Version": "0.1"}
 
 
 @app.get("/team/{team_name}")
-def return_team(team_name: str, q: Union[str, None] = None):
-    if team_name in TEAMS:
-        return {"team": team_name}
-    elif partial := [t for t in TEAMS if team_name.lower() in t.lower()]:
-        return partial
+def return_team(team_name: str):
+    if partial := [t for t in TEAMS if team_name.lower() in t.lower()]:
+        _result = ALL_RESULTS or return_all_data()
+        _team_data = _result.get("final_results")
+        return {"result": [{"team": t, "stats_data": _team_data.get(t)} for t in partial]}
     else:
         raise HTTPException(status_code=404, detail=f'Team {team_name} not found.')
 
+
+@app.get("/final_four")
+def return_final_four_teams():
+    _result = ALL_RESULTS or return_all_data()
+    _team_data = _result.get("final_four")
+    return True
 
 @app.get("/teams")
 def return_all_teams():
