@@ -37,8 +37,10 @@ def return_team(team_name: str):
 @app.get("/final_four")
 def return_final_four_teams():
     _result = ALL_RESULTS or return_all_data()
+    _final_four_teams = _result.get('final_four').keys()
     _team_data = _result.get("final_four")
-    return True
+    return {"result": [{"team": t, "stats_data": _team_data.get(t)} for t in _final_four_teams]}
+
 
 @app.get("/teams")
 def return_all_teams():
