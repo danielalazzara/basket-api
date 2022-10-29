@@ -26,6 +26,7 @@ def read_root():
 
 @app.get("/team/{team_name}")
 def return_team(team_name: str):
+    """Search for a full team name or part of it, return simple stats"""
     if partial := [t for t in TEAMS if team_name.lower() in t.lower()]:
         _result = ALL_RESULTS or return_all_data()
         _team_data = _result.get("final_results")
@@ -36,6 +37,7 @@ def return_team(team_name: str):
 
 @app.get("/final_four")
 def return_final_four_teams():
+    """Simple stat results of the final four teams"""
     _result = ALL_RESULTS or return_all_data()
     _final_four_teams = _result.get('final_four').keys()
     _team_data = _result.get("final_four")
@@ -44,12 +46,14 @@ def return_final_four_teams():
 
 @app.get("/teams")
 def return_all_teams():
+    """Get all teams names from the TEAM variable"""
     all_teams = ', '.join(TEAMS)
     return all_teams
 
 
 @app.get("/private/refresh_data")
 def refresh_data():
+    """Refresh the data"""
     global ALL_RESULTS
     basket.parse_data.main()
     ALL_RESULTS = basket.basket_app.main()
@@ -58,6 +62,7 @@ def refresh_data():
 
 @app.get("/all_data")
 def return_all_data():
+    """Return all data"""
     if ALL_RESULTS == {}:
         refresh_data()
     return ALL_RESULTS
