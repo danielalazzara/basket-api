@@ -51,8 +51,16 @@ with the following result:
 
 ### Get the data of the final four teams
 ```
-curl http://127.0.0.1:8000/final_four
+curl http://127.0.0.1:8000/api/final_four
 ```
 
 ## Reference
 This application uses FastAPI: https://fastapi.tiangolo.com
+
+
+```
+/
+├── api
+├── graph
+└── private
+```

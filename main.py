@@ -1,10 +1,11 @@
-from typing import Union
 from fastapi import FastAPI, HTTPException
+from starlette.responses import FileResponse
 import basket.basket_app
 import basket.parse_data
-
+import visualization.build_graphs
 
 app = FastAPI()
+
 
 TEAMS = ['AC Alfenense A', 'AC Alfenense B', 'Académico FC A',
          'Académico FC B', 'BC Gaia', 'CAA Salesianos',
@@ -24,7 +25,7 @@ def read_root():
     return {"Version": "0.1"}
 
 
-@app.get("/team/{team_name}")
+@app.get("/api/team/{team_name}")
 def return_team(team_name: str):
     """Search for a full team name or part of it, return simple stats"""
     if partial := [t for t in TEAMS if team_name.lower() in t.lower()]:
@@ -35,7 +36,7 @@ def return_team(team_name: str):
         raise HTTPException(status_code=404, detail=f'Team {team_name} not found.')
 
 
-@app.get("/final_four")
+@app.get("/api/final_four")
 def return_final_four_teams():
     """Simple stat results of the final four teams"""
     _result = ALL_RESULTS or return_all_data()
@@ -44,11 +45,19 @@ def return_final_four_teams():
     return {"result": [{"team": t, "stats_data": _team_data.get(t)} for t in _final_four_teams]}
 
 
-@app.get("/teams")
+@app.get("/api/teams")
 def return_all_teams():
     """Get all teams names from the TEAM variable"""
     all_teams = ', '.join(TEAMS)
     return all_teams
+
+
+@app.get("/api/all_data")
+def return_all_data():
+    """Return all data"""
+    if ALL_RESULTS == {}:
+        refresh_data()
+    return ALL_RESULTS
 
 
 @app.get("/private/refresh_data")
@@ -60,9 +69,15 @@ def refresh_data():
     return 'data loaded successfully'
 
 
-@app.get("/all_data")
-def return_all_data():
-    """Return all data"""
+@app.get("/graph")
+def return_graph_main_page():
+    """Return graphs"""
+    return FileResponse('html/graph.html')
+
+
+@app.get("/graph/all_data")
+def return_graph_all_data():
+    """Return graphs"""
     if ALL_RESULTS == {}:
         refresh_data()
-    return ALL_RESULTS
+    return visualization.build_graphs.visualize_all_data(ALL_RESULTS)
