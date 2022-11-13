@@ -3,6 +3,8 @@ from starlette.responses import FileResponse
 import basket.basket_app
 import basket.parse_data
 import visualization.build_graphs
+# from fastapi.responses import FileResponse
+
 
 app = FastAPI()
 
@@ -80,4 +82,6 @@ def return_graph_all_data():
     """Return graphs"""
     if ALL_RESULTS == {}:
         refresh_data()
-    return visualization.build_graphs.visualize_all_data(ALL_RESULTS)
+    file_name = visualization.build_graphs.visualize_all_data(ALL_RESULTS)
+    # return FileResponse(file_name)
+    return file_name
