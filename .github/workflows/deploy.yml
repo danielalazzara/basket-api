@@ -1,0 +1,20 @@
+name: Deploy basket-api
+# description: 'Deploy the latest version of basket-api on a digital-ocean droplet'
+
+on: [push]
+
+#on:
+#  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: |
+        sudo apt-get install curl
+        curl -4 icanhazip.com
