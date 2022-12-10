@@ -1,28 +1,28 @@
 name: Deployment
 
-on: [push]
-
-#on:
-#  workflow_dispatch:
-#  push:
-#    branches:
-#      - main
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Install dependencies
+    - name: Run the deployment workflow
       run: |
-        echo IP: $(curl -4 icanhazip.com)
-    - name: Run the deployment script
-      run: |
-        eval "$(ssh-agent -s)" 
-        ssh-add - <<< "${{ secrets.KEY }}"
-        echo deployment goes under this line
-        ssh -o StrictHostKeychecking=no \
-        -o UserKnownHostsFile=/dev/null \
-        -p ${{ secrets.PORT }} \
-        ${{ secrets.USERNAME }}@${{ secrets.IP }} \
-        touch testfile.txt
+        if $(nc -vz {{ secrets.IP }} ${{ secrets.PORT }}); then
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "${{ secrets.KEY }}"
+          echo Starting the deployment
+          ssh -o StrictHostKeychecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -p ${{ secrets.PORT }} \
+            ${{ secrets.USERNAME }}@${{ secrets.IP }} \
+            touch testfile.txt
+        else
+          echo Unable to deploy
+          echo IP: $(curl -q -4 icanhazip.com)
+        fi
