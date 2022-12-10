@@ -13,16 +13,20 @@ jobs:
     - uses: actions/checkout@v3
     - name: Run the deployment workflow
       run: |
-        if $(nc -z ${{ secrets.IP }} ${{ secrets.PORT }}); then
-          eval "$(ssh-agent -s)"
-          ssh-add - <<< "${{ secrets.KEY }}"
-          echo Starting the deployment
-          ssh -o StrictHostKeychecking=no \
-            -o UserKnownHostsFile=/dev/null \
-            -p ${{ secrets.PORT }} \
-            ${{ secrets.USERNAME }}@${{ secrets.IP }} \
-            touch testfile.txt
-        else
-          echo Unable to deploy
-          echo IP: $(curl -s -4 icanhazip.com)
-        fi
+        for i in {1..3}; do
+          if ! $(nc -z ${{ secrets.IP }} ${{ secrets.PORT }}); then
+            echo Unable to deploy
+            echo IP: $(curl -s -4 icanhazip.com)  
+          else
+            eval "$(ssh-agent -s)"
+            ssh-add - <<< "${{ secrets.KEY }}"
+            echo Starting the deployment
+            ssh -o StrictHostKeychecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -p ${{ secrets.PORT }} \
+              ${{ secrets.USERNAME }}@${{ secrets.IP }} \
+              touch testfile.txt
+            break
+          fi
+          sleep 60
+        done
