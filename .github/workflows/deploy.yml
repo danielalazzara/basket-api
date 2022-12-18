@@ -11,12 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Check the connection
+      run: |
+        if ! $(nc -z ${{ secrets.IP }} ${{ secrets.PORT }}); then
+          echo Unable to connect
+          echo IP: $(curl -s -4 icanhazip.com)
+        else
+          echo Connection successful
+        fi
     - name: Run the deployment workflow
       run: |
-        for i in {1..3}; do
+        for i in {1..5}; do
           if ! $(nc -z ${{ secrets.IP }} ${{ secrets.PORT }}); then
-            echo Unable to deploy
-            echo IP: $(curl -s -4 icanhazip.com)  
+            echo Unable to deploy, attempt ${i}/5
+            sleep 30
           else
             eval "$(ssh-agent -s)"
             ssh-add - <<< "${{ secrets.KEY }}"
@@ -28,5 +36,4 @@ jobs:
               touch testfile.txt
             break
           fi
-          sleep 60
         done
