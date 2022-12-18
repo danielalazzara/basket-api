@@ -83,5 +83,5 @@ def return_graph_all_data():
     if ALL_RESULTS == {}:
         refresh_data()
     file_name = visualization.build_graphs.visualize_all_data(ALL_RESULTS)
-    # return FileResponse(file_name)
-    return file_name
+    return FileResponse(file_name)
+    # return file_name
