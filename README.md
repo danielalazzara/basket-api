@@ -2,7 +2,7 @@
 This application, based on FastAPI, presents the data generated with `basket`.
 
 ```
-curl http://127.0.0.1:8000/final_four | jq
+curl http://127.0.0.1:8000/api/final_four | jq
 
 {
   "result": [
@@ -32,7 +32,7 @@ curl  http://127.0.0.1:8000/
 ### Search a team
 You can search a team with is full name. For Example:
 ```
-curl http://127.0.0.1:8000/team/FC%20Gaia%20B
+curl http://127.0.0.1:8000/api/team/FC%20Gaia%20B
 ```
 with the following result:
 ```
@@ -41,7 +41,7 @@ with the following result:
 
 Or you can search by providing part of the name:
 ```
-curl http://127.0.0.1:8000/team/gaia
+curl http://127.0.0.1:8000/api/team/gaia
 ```
 with the following result:
 ```
@@ -52,6 +52,15 @@ with the following result:
 ### Get the data of the final four teams
 ```
 curl http://127.0.0.1:8000/api/final_four
+```
+
+### Display a diagram
+All the end-points that provide diagrams are grouped under `/graph/`.
+
+Example:
+
+```
+curl http://127.0.0.1:8000/graph/all_data
 ```
 
 ## Reference
