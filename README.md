@@ -63,6 +63,28 @@ Example:
 curl http://127.0.0.1:8000/graph/all_data
 ```
 
+## Deployment
+In the future deployment will be performed by CI/CD. At present time the deployment is a manual process.
+
+1. Login to the VM.
+2. Attach to the `tmux` session:
+    ```
+    tmux attach
+    ```
+3. Stop the execution with `control + c`.
+4. Move to the local clone of the app:
+    ```
+    cd ~/github/basket-api
+    ```
+5. Pull the latest changes:
+    ```
+    git pull
+    ```
+6. Restart the app using the script:
+    ```
+    ~/start-basket-api.sh
+    ```
+
 ## Reference
 This application uses FastAPI: https://fastapi.tiangolo.com
 
