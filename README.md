@@ -85,6 +85,14 @@ In the future deployment will be performed by CI/CD. At present time the deploym
     ~/start-basket-api.sh
     ```
 
+## Tests
+To execute the test:
+```
+cd basket-api
+export PYTHONPATH=$(pwd)
+pytest
+```
+
 ## Reference
 This application uses FastAPI: https://fastapi.tiangolo.com
 
