@@ -17,6 +17,7 @@ def test_return_team_not_exist():
     assert response.status_code == 404
     assert response.json() == {"detail":"Team abcd not found."}
 
+
 def test_return_team_exist():
     response = client.get("/api/team/UAA%20Aroso")
     assert response.status_code == 200
