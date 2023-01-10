@@ -27,3 +27,14 @@ def test_return_team_exist(test_input, expected):
     response = client.get(f"/api/team/{test_input}")
     assert response.status_code == 200
     assert response.json() == {"result": expected}
+
+
+def test_return_final_four_teams():
+    response = client.get(f"/api/final_four")
+    assert response.status_code == 200
+    response_body = response.json()["result"]
+    assert len(response_body) == 4
+    assert response_body[0]["team"] == 'FC Gaia'
+    assert response_body[1]["team"] == 'FC Porto'
+    assert response_body[2]["team"] == 'Maia Basket'
+    assert response_body[3]["team"] == 'Club 5Basket'
