@@ -1,8 +1,6 @@
-import seaborn as sns
+# pylint: disable=C0103
 import pandas as pd
 import matplotlib.pyplot as plt
-# import matplotlib
-# matplotlib.use("macOSX")
 
 
 def process_data(data):
