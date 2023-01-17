@@ -1,8 +1,5 @@
-import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
-# import matplotlib
-# matplotlib.use("macOSX")
 
 
 def process_data(data):
