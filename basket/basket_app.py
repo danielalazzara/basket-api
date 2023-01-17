@@ -3,8 +3,8 @@
 import argparse
 import re
 import sys
-from basket import parse_data
 from collections import defaultdict, Counter
+from basket import parse_data
 
 
 DEFAULT_CSV_FILE = 'basket/data/basket_2021-2022.csv'
