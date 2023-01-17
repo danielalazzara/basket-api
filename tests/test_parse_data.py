@@ -6,4 +6,3 @@ import pytest
 def test_clean_up(test_input,expected):
     result = parse_data.clean_up(test_input)
     assert result == expected
-
