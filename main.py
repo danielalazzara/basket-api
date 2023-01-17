@@ -1,3 +1,4 @@
+# pylint: disable=C1803,W0603
 from fastapi import FastAPI, HTTPException
 from starlette.responses import FileResponse
 import basket.basket_app
@@ -34,8 +35,7 @@ def return_team(team_name: str):
         _result = ALL_RESULTS or return_all_data()
         _team_data = _result.get("final_results")
         return {"result": [{"team": t, "stats_data": _team_data.get(t)} for t in partial]}
-    else:
-        raise HTTPException(status_code=404, detail=f'Team {team_name} not found.')
+    raise HTTPException(status_code=404, detail=f'Team {team_name} not found.')
 
 
 @app.get("/api/final_four")

@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-
-from basket import parse_data
-from collections import defaultdict, Counter
+# pylint: disable=R1707
 import argparse
 import re
 import sys
+from basket import parse_data
+from collections import defaultdict, Counter
+
 
 DEFAULT_CSV_FILE = 'basket/data/basket_2021-2022.csv'
 DEFAULT_CSV_SEPARATOR = ';'

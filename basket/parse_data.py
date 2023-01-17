@@ -19,7 +19,7 @@ def load_data(csv_file_name, csv_separator):
 
 def parse_games(full_data):
     all_games = []
-    for index, row in full_data.iterrows():
+    for _, row in full_data.iterrows():
         team_1 = row['team_1']
         team_2 = row['team_2']
         score_1 = row['score_1']
@@ -35,7 +35,7 @@ def get_team_names(full_data):
     :return: set
     """
     names = set()
-    for index, row in full_data.iterrows():
+    for _, row in full_data.iterrows():
         names.add(row['team_1'])
         names.add(row['team_2'])
     return sorted(names)
