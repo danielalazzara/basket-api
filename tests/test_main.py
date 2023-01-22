@@ -30,7 +30,7 @@ def test_return_team_exist(test_input, expected):
 
 
 def test_return_final_four_teams():
-    response = client.get(f"/api/final_four")
+    response = client.get("/api/final_four")
     assert response.status_code == 200
     response_body = response.json()["result"]
     assert len(response_body) == 4

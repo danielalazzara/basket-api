@@ -1,5 +1,5 @@
-from basket import parse_data
 import pytest
+from basket import parse_data
 
 
 @pytest.mark.parametrize("test_input,expected", [("aB c", "ab_c"), ("ABCD", "abcd"), ("abªc", "abc")])
