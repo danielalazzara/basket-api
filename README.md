@@ -66,19 +66,19 @@ curl http://127.0.0.1:8000/graph/all_data
 ## Run the application in Docker
 
 1. Build the image
-  ```
-  docker build -t basket-api .
-  ```
+    ```
+    docker build -t basket-api .
+    ```
 
 2. Run the image mapping port 8000
-  ```
-  docker run -d -p 8000:8000 --rm basket-api
-  ```
+    ```
+    docker run -d -p 8000:8000 --rm basket-api
+    ```
 
 3. Test basket-api with curl
-  ```
-  curl http://127.0.0.1:8000
-  ```
+    ```
+    curl http://127.0.0.1:8000
+    ```
 
 ## Deployment
 In the future deployment will be performed by CI/CD. At present time the deployment is a manual process.
